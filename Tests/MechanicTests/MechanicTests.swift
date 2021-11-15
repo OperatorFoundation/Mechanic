@@ -25,7 +25,7 @@ final class MechanicTests: XCTestCase {
         let package = packages[0]
         let rule = SwiftToolsVersion()
         let result = rule.check(package)
-        XCTAssertTrue(result.passed)
+        print(result)
     }
 
     func testSwiftToolsVersionAllPackages()

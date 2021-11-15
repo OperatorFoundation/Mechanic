@@ -22,16 +22,46 @@ public class Package
         self.path = path
     }
 
-    public func load() -> TopLevelDeclaration?
+    // Public functions
+    public func loadData() -> Data?
     {
         let url = URL(fileURLWithPath: self.path)
         let packageDotSwift = url.appendingPathComponent("Package.swift").path
         guard File.exists(packageDotSwift) else {return nil}
 
-        guard let data = File.get(packageDotSwift) else {return nil}
+        return File.get(packageDotSwift)
+    }
+
+    public func loadString() -> String?
+    {
+        guard let data = loadData() else {return nil}
+        return data.string
+    }
+
+    public func loadSource() -> TopLevelDeclaration?
+    {
+        guard let data = loadData() else {return nil}
         return getAST(data: data)
     }
 
+    public func saveData(data: Data) -> Bool
+    {
+        return File.put(self.path, contents: data)
+    }
+
+    public func saveString(string: String) -> Bool
+    {
+        let data = string.data
+        return saveData(data: data)
+    }
+
+    public func saveSource(source: TopLevelDeclaration) -> Bool
+    {
+        let string = source.textDescription
+        return saveString(string: string)
+    }
+
+    // Private functions
     func getAST(data: Data) -> TopLevelDeclaration?
     {
         guard let s = String(bytes: data, encoding: .utf8) else {

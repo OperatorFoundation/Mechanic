@@ -34,12 +34,17 @@ public class Mechanic
         }
     }
 
-    public func runChecks(package: Package)
+    public func runChecks(package: Package) -> [CheckResult]
     {
+        var results: [CheckResult] = []
+
         for rule in self.checks
         {
-            rule.check(package)
+            let result = rule.check(package)
+            results.append(result)
         }
+
+        return results
     }
 
     // Private functions

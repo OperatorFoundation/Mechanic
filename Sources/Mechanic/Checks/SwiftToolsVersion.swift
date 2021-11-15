@@ -9,12 +9,12 @@ import Foundation
 
 public class SwiftToolsVersion: Check
 {
-    static let desiredVersion = "5.5"
+    public static let desiredVersion = "5.5"
     var name: String = "Is Swift Tools Version \(SwiftToolsVersion.desiredVersion)?"
 
     func check(_ package: Package) -> CheckResult
     {
-        guard let source = package.load() else
+        guard let source = package.loadSource() else
         {
             return CheckResult(package: package, checkName: self.name, passed: false, notes: "Could not load Package.swift")
         }
